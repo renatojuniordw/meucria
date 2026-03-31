@@ -26,8 +26,8 @@ export async function POST(req: Request) {
 
     const colors = await suggestColors(result.data.niche, result.data.description)
     return NextResponse.json(colors)
-  } catch (error) {
+  } catch (error: any) {
     console.error('Suggest Colors Error:', error)
-    return NextResponse.json({ error: 'Erro ao sugerir cores' }, { status: 500 })
+    return NextResponse.json({ error: 'Erro ao sugerir cores', details: error?.message || error?.details || String(error) }, { status: 500 })
   }
 }

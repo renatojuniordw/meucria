@@ -2,7 +2,7 @@
 
 import { useBrands } from '@/hooks/useBrands'
 import { useCurrentPlan } from '@/hooks/useCurrentPlan'
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import styles from './brands.module.scss'
 
 export default function BrandsPage() {

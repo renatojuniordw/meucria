@@ -3,7 +3,7 @@
 import React from 'react'
 import { Sparkles, Type, Info } from 'lucide-react'
 import styles from './FontPicker.module.scss'
-import { processFontName } from '@/lib/utils/ogUtils' // ou import alternativo para fontes se houver
+// import alternativo para fontes se houver
 import { FONTS } from '@/lib/constants/fonts'
 
 export type FontMode = 'manual' | 'ai'
@@ -37,7 +37,7 @@ export function FontPicker({
     { label: 'Display (Títulos fortes)', options: FONTS.display },
     { label: 'Sans (Leitura limpa)', options: FONTS.sans },
     { label: 'Serif (Elegante)', options: FONTS.serif },
-    { label: 'Handwriting (Personalidade)', options: FONTS.handwriting },
+    { label: 'Handwriting (Personalidade)', options: FONTS.accent },
   ]
 
   return (

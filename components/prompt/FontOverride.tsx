@@ -38,7 +38,7 @@ export function FontOverride({
     { label: 'Display', options: FONTS.display },
     { label: 'Sans', options: FONTS.sans },
     { label: 'Serif', options: FONTS.serif },
-    { label: 'Handwriting', options: FONTS.handwriting },
+    { label: 'Handwriting', options: FONTS.accent },
   ]
 
   if (!isOverriding) {

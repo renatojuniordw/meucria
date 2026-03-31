@@ -1,3 +1,5 @@
+'use client'
+
 // components/layout/Sidebar.tsx
 import React from 'react'
 import { Link, usePathname } from '@/i18n/routing'

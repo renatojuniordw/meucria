@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { ChevronDown, Check, Loader2, PlusCircle } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 import styles from './BrandSwitcher.module.scss'
 import { useBrands } from '@/hooks/useBrands'
 import { useActiveBrand } from '@/hooks/useActiveBrand'
@@ -12,10 +12,10 @@ export function BrandSwitcher() {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   
-  const { brands, isLoading } = useBrands()
-  const { activeBrandId, setActiveBrand } = useActiveBrand()
+  const { brands, loading } = useBrands()
+  const { brand: currentBrand } = useActiveBrand()
 
-  const activeBrand = brands.find(b => b.id === activeBrandId) || brands[0]
+  const activeBrand = brands.find(b => b.id === currentBrand?.id) || brands[0]
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -27,13 +27,21 @@ export function BrandSwitcher() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const handleSelect = (id: string) => {
-    setActiveBrand(id)
+  const handleSelect = async (id: string) => {
     setIsOpen(false)
-    router.refresh()
+    try {
+      await fetch('/api/user/active-brand', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ brandId: id })
+      })
+      router.refresh()
+    } catch (e) {
+      console.error(e)
+    }
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className={styles.loadingWrapper}>
         <Loader2 className="animate-spin" size={16} />

@@ -59,7 +59,10 @@ export function ColorPicker({
         body: JSON.stringify({ niche, description }),
       })
 
-      if (!res.ok) throw new Error('Erro ao gerar paleta')
+      if (!res.ok) {
+        const errorData = await res.json()
+        throw new Error('Erro ao gerar paleta: ' + JSON.stringify(errorData.details || errorData))
+      }
       
       const data = await res.json()
       onChangeColors({

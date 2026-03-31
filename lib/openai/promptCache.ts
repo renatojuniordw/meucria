@@ -24,7 +24,16 @@ export async function getSystemPrompt(id: PromptId): Promise<string> {
     .single()
 
   if (error || !data) {
-    throw new Error(`System prompt '${id}' not found. Check system_prompts table.`)
+    console.warn(`System prompt '${id}' not found in DB. Using fallback.`)
+    // Hardcoded fallbacks to prevent crash if table is empty
+    const fallbacks: Record<PromptId, string> = {
+      suggest_colors: 'Você é um especialista em design de marcas. Retorne APENAS um objeto JSON com chaves: "primary", "secondary", e "accent", contendo as cores em formato hexadecimal (ex: #FFFFFF) mais adequadas para o nicho informado.',
+      suggest_content: 'Você é um copywriter. Retorne um JSON com "objective" (objetivo da marca) e "contentText" (texto curto).',
+      generate: 'Você é um AI gerador de prompts de imagem.',
+      copy: 'Você é um copywriter especialista.',
+      clone: 'Você é um especialista em extração de estilo de imagem.'
+    }
+    return fallbacks[id] || 'You are a helpful assistant.'
   }
 
   // 3. Set cache (TTL 10 min)
