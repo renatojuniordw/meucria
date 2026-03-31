@@ -1,0 +1,68 @@
+// components/layout/Sidebar.module.scss
+@use '@/app/variables' as *;
+
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  border-right: 2px solid $color-border;
+  background: $color-bg;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+}
+
+.logo {
+  padding: $space-xl $space-md;
+  font-family: $font-mono;
+  font-weight: 9400;
+  font-size: 1.25rem;
+  letter-spacing: -0.05em;
+  border-bottom: 1px solid $color-border;
+}
+
+.accent {
+  color: $color-accent;
+}
+
+.nav {
+  padding: $space-lg 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-sm $space-md;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: $color-muted;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $color-bg;
+    background: $color-fg;
+  }
+
+  &.active {
+    color: $color-accent;
+    border-left: 4px solid $color-accent;
+  }
+}
+
+.profileBox {
+  padding: $space-md;
+  border-top: 1px solid $color-border;
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  color: $color-muted;
+  text-transform: uppercase;
+}

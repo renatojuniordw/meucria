@@ -1,0 +1,137 @@
+@use '../../app/variables' as *;
+
+.section {
+  padding: $space-xl 0;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  max-width: 640px;
+  width: 100%;
+  border: 1px solid $color-border;
+  padding: $space-lg;
+  margin: 0 $space-md;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: $space-xs;
+  }
+}
+
+.subtitle {
+  color: $color-muted;
+  margin-bottom: $space-lg;
+  font-size: 0.9rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+
+  select, textarea {
+    width: 100%;
+    padding: $space-sm $space-md;
+    background: $color-bg;
+    border: 1px solid $color-border;
+    color: $color-fg;
+    font-family: $font-main;
+    font-size: 0.9rem;
+    resize: none;
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent;
+    }
+  }
+}
+
+.formats {
+  display: flex;
+  gap: 2px;
+
+  button {
+    flex: 1;
+    padding: $space-sm;
+    background: transparent;
+    border: 1px solid $color-border;
+    color: $color-muted;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &.active {
+      background: $color-accent;
+      color: $color-bg;
+      border-color: $color-accent;
+    }
+  }
+}
+
+.generate {
+  padding: $space-sm $space-lg;
+  background: $color-accent;
+  color: $color-bg;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  transition: opacity $transition-fast;
+
+  &:hover { opacity: 0.9; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.result {
+  textarea {
+    width: 100%;
+    padding: $space-md;
+    background: rgba(57, 255, 20, 0.05);
+    border: 1px solid $color-accent;
+    color: $color-fg;
+    font-family: $font-mono;
+    font-size: 0.85rem;
+    resize: none;
+    margin-bottom: $space-sm;
+  }
+}
+
+.copy {
+  padding: $space-sm $space-md;
+  background: transparent;
+  border: 1px solid $color-border;
+  color: $color-fg;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+
+  &:hover { border-color: $color-accent; color: $color-accent; }
+}
+
+.postGenerate {
+  margin-top: $space-lg;
+  padding-top: $space-md;
+  border-top: 1px solid $color-border;
+
+  p {
+    color: $color-muted;
+    font-size: 0.85rem;
+    margin-bottom: $space-sm;
+  }
+}
+
+.cta {
+  display: inline-block;
+  padding: $space-sm $space-lg;
+  background: $color-accent;
+  color: $color-bg;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}

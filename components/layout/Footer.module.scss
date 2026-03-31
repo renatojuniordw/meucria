@@ -1,0 +1,51 @@
+@use '../../app/variables' as *;
+
+.footer {
+  border-top: 1px solid $color-border;
+  padding: $space-xl 0 $space-lg;
+  margin-top: $space-xl;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $space-md;
+}
+
+.brand {
+  margin-bottom: $space-lg;
+
+  p {
+    color: $color-muted;
+    font-size: 0.85rem;
+    margin-top: $space-xs;
+  }
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $color-accent;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-md;
+  margin-bottom: $space-lg;
+
+  a {
+    color: $color-muted;
+    font-size: 0.85rem;
+    transition: color $transition-fast;
+
+    &:hover { color: $color-accent; }
+  }
+}
+
+.bottom {
+  font-size: 0.75rem;
+  color: $color-muted;
+}

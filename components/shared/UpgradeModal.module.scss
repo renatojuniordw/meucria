@@ -1,0 +1,78 @@
+@use '../../app/variables' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: $color-bg;
+  border: 1px solid $color-border;
+  padding: $space-lg;
+  max-width: 480px;
+  width: 90%;
+  position: relative;
+
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: $space-sm;
+  }
+
+  p {
+    color: $color-muted;
+    line-height: 1.5;
+  }
+}
+
+.subtitle {
+  margin-top: $space-sm;
+  font-size: 0.85rem;
+}
+
+.close {
+  position: absolute;
+  top: $space-md;
+  right: $space-md;
+  color: $color-muted;
+  font-size: 1.25rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+
+  &:hover { color: $color-fg; }
+}
+
+.actions {
+  display: flex;
+  gap: $space-sm;
+  margin-top: $space-lg;
+}
+
+.cta {
+  padding: $space-sm $space-md;
+  background: $color-accent;
+  color: $color-bg;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  display: inline-block;
+
+  &:hover { opacity: 0.9; }
+}
+
+.cancel {
+  padding: $space-sm $space-md;
+  background: transparent;
+  color: $color-muted;
+  border: 1px solid $color-border;
+  cursor: pointer;
+
+  &:hover { color: $color-fg; }
+}

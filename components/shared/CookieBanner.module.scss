@@ -1,0 +1,59 @@
+@use '../../app/variables' as *;
+
+.banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.95);
+  border-top: 1px solid $color-border;
+  padding: $space-md $space-lg;
+  z-index: 9999;
+  backdrop-filter: blur(12px);
+
+  p {
+    font-size: 0.85rem;
+    color: $color-muted;
+    max-width: 800px;
+    line-height: 1.5;
+
+    a {
+      color: $color-accent;
+      text-decoration: underline;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  gap: $space-sm;
+  margin-top: $space-sm;
+}
+
+.primary {
+  padding: $space-sm $space-md;
+  background: $color-accent;
+  color: $color-bg;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  transition: opacity $transition-fast;
+
+  &:hover { opacity: 0.9; }
+}
+
+.secondary {
+  padding: $space-sm $space-md;
+  background: transparent;
+  color: $color-muted;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: 1px solid $color-border;
+  cursor: pointer;
+  transition: color $transition-fast;
+
+  &:hover { color: $color-fg; }
+}

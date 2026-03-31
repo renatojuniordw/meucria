@@ -1,0 +1,82 @@
+@use '../../app/variables' as *;
+
+.section {
+  padding: $space-xl 0;
+  border-top: 1px solid $color-border;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $space-md;
+
+  h2 {
+    text-align: center;
+    margin-bottom: $space-xl;
+    font-size: 2rem;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-lg;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.step {
+  padding: $space-lg;
+  border: 1px solid $color-border;
+  position: relative;
+
+  h3 {
+    font-size: 1rem;
+    margin-bottom: $space-xs;
+    text-transform: uppercase;
+  }
+
+  p {
+    color: $color-muted;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+.iconWrap {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  margin-bottom: $space-md;
+  color: $color-accent;
+}
+
+.number {
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  color: $color-muted;
+}
+
+.cta {
+  text-align: center;
+  margin-top: $space-xl;
+
+  a {
+    display: inline-block;
+    padding: $space-sm $space-lg;
+    background: transparent;
+    color: $color-accent;
+    border: 1px solid $color-accent;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $color-accent;
+      color: $color-bg;
+    }
+  }
+}

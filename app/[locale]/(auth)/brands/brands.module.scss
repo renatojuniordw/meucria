@@ -1,0 +1,81 @@
+@use '../../../../app/variables' as *;
+
+.page { padding: $space-lg 0; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-lg;
+
+  h1 { font-size: 1.5rem; }
+}
+
+.badge {
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  color: $color-muted;
+  border: 1px solid $color-border;
+  padding: $space-xs $space-sm;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $space-md;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-md;
+  border: 1px solid $color-border;
+  text-decoration: none;
+  color: $color-fg;
+  transition: border-color $transition-fast;
+
+  &:hover { border-color: $color-accent; }
+
+  h3 { font-size: 0.95rem; text-transform: uppercase; }
+  p { color: $color-muted; font-size: 0.8rem; }
+}
+
+.colorDot {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.addCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-lg;
+  border: 1px dashed $color-border;
+  color: $color-muted;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all $transition-fast;
+
+  &:hover { border-color: $color-accent; color: $color-accent; }
+}
+
+.limitCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $space-lg;
+  border: 1px solid $color-border;
+  text-align: center;
+
+  p { color: $color-muted; font-size: 0.85rem; margin-bottom: $space-sm; }
+  a { color: $color-accent; text-decoration: underline; }
+}
+
+.loading {
+  padding: $space-xl;
+  text-align: center;
+  color: $color-muted;
+}

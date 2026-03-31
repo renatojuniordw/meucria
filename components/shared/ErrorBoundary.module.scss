@@ -1,0 +1,27 @@
+@use '../../app/variables' as *;
+
+.fallback {
+  padding: $space-xl $space-lg;
+  text-align: center;
+
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: $space-sm;
+  }
+
+  p {
+    color: $color-muted;
+    margin-bottom: $space-md;
+  }
+
+  button {
+    padding: $space-sm $space-md;
+    background: $color-accent;
+    color: $color-bg;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    cursor: pointer;
+  }
+}

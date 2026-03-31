@@ -1,0 +1,42 @@
+// components/ui/Input.module.scss
+@use '@/app/variables' as *;
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  width: 100%;
+}
+
+.label {
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: $color-muted;
+}
+
+.input {
+  width: 100%;
+  padding: $space-sm $space-md;
+  background: transparent;
+  border: 1px solid $color-border;
+  color: $color-fg;
+  font-family: $font-main;
+  border-radius: $radius-sm;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+    box-shadow: 0 0 0 1px $color-accent;
+  }
+
+  &::placeholder {
+    color: #444;
+  }
+}
+
+.error {
+  font-size: 0.7rem;
+  color: #ff3333;
+}

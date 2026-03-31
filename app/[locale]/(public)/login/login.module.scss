@@ -1,0 +1,105 @@
+@use '../../../../app/variables' as *;
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-md;
+}
+
+.card {
+  max-width: 420px;
+  width: 100%;
+  border: 1px solid $color-border;
+  padding: $space-lg;
+}
+
+.logo {
+  text-align: center;
+  font-size: 1.75rem;
+  color: $color-accent;
+  margin-bottom: $space-lg;
+  letter-spacing: 0.05em;
+}
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: $space-lg;
+
+  button {
+    flex: 1;
+    padding: $space-sm;
+    background: transparent;
+    border: 1px solid $color-border;
+    color: $color-muted;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &.active {
+      background: $color-accent;
+      color: $color-bg;
+      border-color: $color-accent;
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+
+  input {
+    width: 100%;
+    padding: $space-sm $space-md;
+    background: $color-bg;
+    border: 1px solid $color-border;
+    color: $color-fg;
+    font-family: $font-main;
+    font-size: 0.9rem;
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent;
+    }
+
+    &::placeholder { color: $color-muted; }
+  }
+
+  button[type="submit"] {
+    padding: $space-sm $space-md;
+    background: $color-accent;
+    color: $color-bg;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    cursor: pointer;
+    transition: opacity $transition-fast;
+
+    &:hover { opacity: 0.9; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+}
+
+.error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #ff4444;
+  padding: $space-sm $space-md;
+  font-size: 0.85rem;
+  margin-bottom: $space-sm;
+}
+
+.legal {
+  font-size: 0.75rem;
+  color: $color-muted;
+  text-align: center;
+
+  a { color: $color-accent; text-decoration: underline; }
+}

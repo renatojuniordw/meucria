@@ -1,0 +1,55 @@
+// components/onboarding/OnboardingStep4.module.scss
+@use '@/app/variables' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.modes {
+  display: flex;
+  gap: $space-sm;
+}
+
+.aiNote {
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  color: $color-accent;
+  padding: $space-md;
+  border: 1px dashed $color-accent;
+}
+
+.manualSelection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  label {
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: $color-muted;
+  }
+
+  select {
+    padding: $space-sm;
+    background: $color-bg;
+    color: $color-fg;
+    border: 1px solid $color-border;
+    font-family: $font-main;
+  }
+}
+
+.disclaimer {
+  font-size: 0.7rem;
+  color: #444;
+  font-style: italic;
+  margin-top: auto;
+}

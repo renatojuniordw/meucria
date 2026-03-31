@@ -1,0 +1,29 @@
+// app/variables.scss
+
+// Brand Colors (Acid & High Contrast)
+$color-bg: #000000;
+$color-fg: #ffffff;
+$color-accent: #39ff14; // Acid Green
+$color-accent-secondary: #00f0ff; // Electric Cyan
+$color-border: #1a1a1a;
+$color-muted: #888888;
+
+// Spacing
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 32px;
+$space-xl: 64px;
+
+// Border Radius (Extremism: Sharp)
+$radius-sm: 0px;
+$radius-md: 2px;
+$radius-lg: 4px;
+
+// Typography
+$font-main: 'Inter', sans-serif;
+$font-mono: 'JetBrains Mono', monospace;
+
+// Transitions
+$transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+$transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);

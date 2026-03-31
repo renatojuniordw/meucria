@@ -1,0 +1,99 @@
+// components/prompt/PromptWizard.module.scss
+@use '@/app/variables' as *;
+
+.wizard {
+  margin: $space-xl 0;
+}
+
+.header {
+  margin-bottom: $space-xl;
+  border-left: 4px solid $color-accent;
+  padding-left: $space-md;
+}
+
+.title {
+  font-size: 2rem;
+  letter-spacing: -0.05em;
+}
+
+.subtitle {
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  color: $color-muted;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-xl;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  label {
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: $color-muted;
+    text-transform: uppercase;
+  }
+}
+
+.toggleGroup {
+  display: flex;
+  gap: $space-sm;
+}
+
+.resultZone {
+  background: #050505;
+  border: 1px solid $color-border;
+  display: flex;
+  flex-direction: column;
+}
+
+.placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-mono;
+  color: #222;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: $space-xl;
+}
+
+.resultCard {
+  padding: $space-lg;
+  animation: reveal 0.4s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.promptText {
+  white-space: pre-wrap;
+  font-family: $font-main;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: #ccc;
+  background: #0a0a0a;
+  padding: $space-md;
+  border: 1px solid $color-border;
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

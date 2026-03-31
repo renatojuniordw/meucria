@@ -1,0 +1,29 @@
+@use '../../app/variables' as *;
+
+.switcher {
+  display: flex;
+  gap: 2px;
+  border: 1px solid $color-border;
+}
+
+.btn {
+  padding: $space-xs $space-sm;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $color-muted;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-fast;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  &.active {
+    background: $color-accent;
+    color: $color-bg;
+  }
+
+  &:hover:not(.active) {
+    color: $color-fg;
+  }
+}

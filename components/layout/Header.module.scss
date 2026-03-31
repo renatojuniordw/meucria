@@ -1,0 +1,51 @@
+// components/layout/Header.module.scss
+@use '@/app/variables' as *;
+
+.header {
+  border-bottom: 2px solid $color-border;
+  background: rgba($color-bg, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-md;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: $font-mono;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: -0.05em;
+}
+
+.accent {
+  color: $color-accent;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: $space-lg;
+  font-family: $font-mono;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+.loginBtn {
+  border: 1px solid $color-fg;
+  padding: $space-xs $space-md;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $color-fg;
+    color: $color-bg;
+  }
+}

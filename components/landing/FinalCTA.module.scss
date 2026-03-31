@@ -1,0 +1,58 @@
+@use '../../app/variables' as *;
+
+.section {
+  padding: $space-xl * 1.5 0;
+  border-top: 1px solid $color-accent;
+  background: rgba(57, 255, 20, 0.03);
+  text-align: center;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 $space-md;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: $space-sm;
+  }
+
+  p {
+    color: $color-muted;
+    font-size: 1rem;
+    margin-bottom: $space-lg;
+  }
+}
+
+.cta {
+  display: inline-block;
+  padding: $space-md $space-xl;
+  background: $color-accent;
+  color: $color-bg;
+  font-weight: 800;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: opacity $transition-fast;
+
+  &:hover { opacity: 0.9; }
+}
+
+.proof {
+  display: flex;
+  justify-content: center;
+  gap: $space-md;
+  margin-top: $space-md;
+  flex-wrap: wrap;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+    font-size: 0.8rem;
+    color: $color-muted;
+
+    svg { color: $color-accent; }
+  }
+}

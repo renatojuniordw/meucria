@@ -1,0 +1,39 @@
+// components/onboarding/OnboardingStep3.module.scss
+@use '@/app/variables' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.modes {
+  display: flex;
+  gap: $space-sm;
+}
+
+.manualInputs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-md;
+}
+
+.aiNote {
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  color: $color-accent;
+  border: 1px dashed $color-accent;
+  padding: $space-md;
+}
+
+.preview {
+  display: flex;
+  gap: $space-md;
+  margin-top: $space-lg;
+}
+
+.swatch {
+  width: 60px;
+  height: 60px;
+  border: 4px solid $color-fg;
+}

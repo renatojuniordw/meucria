@@ -1,0 +1,40 @@
+// components/onboarding/OnboardingWizard.module.scss
+@use '@/app/variables' as *;
+
+.wizard {
+  max-width: 600px;
+  margin: $space-xl auto;
+  border: 4px solid $color-fg;
+  padding: $space-xl;
+  background: $color-bg;
+}
+
+.progress {
+  margin-bottom: $space-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.bar {
+  height: 4px;
+  background: $color-accent;
+  transition: width $transition-base;
+}
+
+.stepInfo {
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.stepContent {
+  min-height: 300px;
+  margin-bottom: $space-xl;
+}
+
+.nav {
+  display: flex;
+  padding-top: $space-lg;
+  border-top: 1px solid $color-border;
+}

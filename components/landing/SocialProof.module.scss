@@ -1,0 +1,27 @@
+@use '../../app/variables' as *;
+
+.section {
+  padding: $space-md 0;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $space-md;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: $color-muted;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dot {
+  color: $color-accent;
+}

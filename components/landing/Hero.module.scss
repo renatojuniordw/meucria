@@ -1,0 +1,43 @@
+// components/landing/Hero.module.scss
+@use '@/app/variables' as *;
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 80vh;
+  padding: $space-xl 0;
+  border-bottom: 2px solid $color-border;
+}
+
+.title {
+  font-size: clamp(3rem, 10vw, 8rem);
+  line-height: 0.9;
+  margin-bottom: $space-lg;
+  color: $color-fg;
+}
+
+.accent {
+  color: $color-accent;
+}
+
+.description {
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin-bottom: $space-xl;
+  color: $color-muted;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  gap: $space-md;
+}
+
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+}

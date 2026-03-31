@@ -1,0 +1,55 @@
+@use '../../../app/variables' as *;
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, $color-border 25%, lighten($color-border, 5%) 50%, $color-border 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: $radius-md;
+}
+
+.card {
+  height: 180px;
+  width: 100%;
+}
+
+.input {
+  height: 48px;
+  width: 100%;
+  margin-bottom: $space-sm;
+}
+
+.header {
+  height: 32px;
+  width: 60%;
+  margin-bottom: $space-md;
+}
+
+.button {
+  height: 48px;
+  width: 160px;
+  margin-top: $space-md;
+}
+
+.row {
+  height: 64px;
+  width: 100%;
+  margin-bottom: $space-sm;
+}
+
+.wizard {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  padding: $space-lg;
+}
+
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}

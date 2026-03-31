@@ -1,0 +1,113 @@
+@use '../../app/variables' as *;
+
+.section {
+  padding: $space-xl 0;
+  border-top: 1px solid $color-border;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $space-md;
+
+  h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: $space-xl;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-md;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  border: 1px solid $color-border;
+  padding: $space-lg;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: $space-sm;
+  }
+
+  ul {
+    list-style: none;
+    margin: $space-md 0;
+    flex: 1;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: $space-sm;
+      padding: $space-xs 0;
+      color: $color-muted;
+      font-size: 0.9rem;
+
+      svg { color: $color-accent; flex-shrink: 0; }
+    }
+  }
+}
+
+.highlighted {
+  border-color: $color-accent;
+  background: rgba(57, 255, 20, 0.03);
+}
+
+.badge {
+  position: absolute;
+  top: -12px;
+  right: $space-md;
+  background: $color-accent;
+  color: $color-bg;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+}
+
+.price {
+  margin-bottom: $space-sm;
+}
+
+.amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.period {
+  font-size: 0.85rem;
+  color: $color-muted;
+  margin-left: $space-xs;
+}
+
+.cta {
+  display: block;
+  text-align: center;
+  padding: $space-sm $space-md;
+  background: $color-accent;
+  color: $color-bg;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: opacity $transition-fast;
+
+  &:hover { opacity: 0.9; }
+}
+
+.note {
+  text-align: center;
+  color: $color-muted;
+  font-size: 0.85rem;
+  margin-top: $space-lg;
+}

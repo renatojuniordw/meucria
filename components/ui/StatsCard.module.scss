@@ -1,0 +1,48 @@
+// components/ui/StatsCard.module.scss
+@use '@/app/variables' as *;
+
+.card {
+  background: #050505;
+  border: 1px solid $color-border;
+  padding: $space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  transition: border-color $transition-fast;
+
+  &:hover {
+    border-color: $color-accent;
+  }
+}
+
+.label {
+  font-family: $font-mono;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: $color-muted;
+}
+
+.value {
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.sublabel {
+  font-family: $font-mono;
+  font-size: 0.65rem;
+  color: #444;
+}
+
+.progressContainer {
+  margin-top: $space-md;
+  height: 2px;
+  background: #111;
+  width: 100%;
+}
+
+.progressBar {
+  height: 100%;
+  background: $color-accent;
+  transition: width $transition-base;
+}
