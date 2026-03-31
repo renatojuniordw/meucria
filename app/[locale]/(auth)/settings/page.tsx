@@ -3,7 +3,7 @@
 import { useCurrentPlan } from '@/hooks/useCurrentPlan'
 import { usePromptUsage } from '@/hooks/usePromptUsage'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useRouter, Link } from '@/i18n/routing'
 
 export default function SettingsPage() {
   const { plan, planData } = useCurrentPlan()
@@ -36,9 +36,9 @@ export default function SettingsPage() {
           <strong style={{ color: '#39ff14' }}>{planData.name}</strong> — R${(planData.price / 100).toFixed(0)}/mês
         </p>
         {plan !== 'pro' && (
-          <a href="/pricing" style={{ color: '#39ff14', textDecoration: 'underline', fontSize: '0.85rem' }}>
+          <Link href="/pricing" style={{ color: '#39ff14', textDecoration: 'underline', fontSize: '0.85rem' }}>
             Fazer upgrade
-          </a>
+          </Link>
         )}
       </section>
 

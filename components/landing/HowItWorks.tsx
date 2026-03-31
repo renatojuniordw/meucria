@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { Link } from '@/i18n/routing'
 import styles from './HowItWorks.module.scss'
 import { Palette, Layers, Copy } from 'lucide-react'
 
@@ -35,7 +36,7 @@ export function HowItWorks() {
           ))}
         </div>
         <div className={styles.cta}>
-          <a href="/login?tab=register">Começar agora — é grátis</a>
+          <Link href="/login?tab=register">Começar agora — é grátis</Link>
         </div>
       </div>
     </section>

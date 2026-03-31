@@ -4,6 +4,7 @@
 import React from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/routing'
 import { Button } from '../ui/Button'
 import styles from './Hero.module.scss'
 
@@ -50,12 +51,16 @@ export const Hero = () => {
       </motion.p>
       
       <motion.div className={styles.actions} variants={itemVariants}>
-        <Button variant="primary" style={{ minWidth: '200px' }}>
-          {t('cta')}
-        </Button>
-        <Button variant="outline">
-          VER DEMO
-        </Button>
+        <Link href="/login?tab=register">
+          <Button variant="primary" style={{ minWidth: '200px' }}>
+            {t('cta')}
+          </Button>
+        </Link>
+        <a href="#demo">
+          <Button variant="outline">
+            VER DEMO
+          </Button>
+        </a>
       </motion.div>
     </motion.section>
   )

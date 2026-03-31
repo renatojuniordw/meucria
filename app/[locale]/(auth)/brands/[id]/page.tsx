@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 import { use } from 'react'
 
 export default function BrandEditPage({ params }: { params: Promise<{ id: string }> }) {

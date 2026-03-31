@@ -1,5 +1,6 @@
 'use client'
 
+import { Link } from '@/i18n/routing'
 import styles from './Pricing.module.scss'
 import { Check } from 'lucide-react'
 
@@ -56,7 +57,7 @@ export function Pricing() {
                   <li key={i}><Check size={14} /> {f}</li>
                 ))}
               </ul>
-              <a href={plan.href} className={styles.cta}>{plan.cta}</a>
+              <Link href={plan.href} className={styles.cta}>{plan.cta}</Link>
             </div>
           ))}
         </div>

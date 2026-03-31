@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Link } from '@/i18n/routing'
 import styles from './PromptPreview.module.scss'
 
 const NICHES = ['Moda', 'Alimentação', 'Fitness', 'Beleza', 'Tecnologia', 'Educação', 'Saúde', 'Imobiliário', 'Outro']
@@ -40,7 +41,7 @@ export function PromptPreview() {
         <div className={styles.card}>
           <h2>Você já usou seu teste gratuito</h2>
           <p>Crie uma conta para ter 15 prompts grátis com sua marca configurada.</p>
-          <a href="/login?tab=register" className={styles.cta}>Criar conta grátis</a>
+          <Link href="/login?tab=register" className={styles.cta}>Criar conta grátis</Link>
         </div>
       </section>
     )
@@ -86,7 +87,7 @@ export function PromptPreview() {
             </button>
             <div className={styles.postGenerate}>
               <p>Gostou? Crie sua conta e tenha 15 prompts grátis com sua marca configurada.</p>
-              <a href="/login?tab=register" className={styles.cta}>Criar conta grátis</a>
+              <Link href="/login?tab=register" className={styles.cta}>Criar conta grátis</Link>
             </div>
           </div>
         )}

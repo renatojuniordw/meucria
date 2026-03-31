@@ -2,7 +2,9 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
+import { useSearchParams } from 'next/navigation'
+import { Link } from '@/i18n/routing'
 import styles from './login.module.scss'
 
 export default function LoginPage() {
@@ -83,7 +85,7 @@ export default function LoginPage() {
             <input type="password" placeholder="Senha (min 6 caracteres)" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
             <button type="submit" disabled={loading}>{loading ? 'Criando conta...' : 'Criar conta grátis'}</button>
             <p className={styles.legal}>
-              Ao criar sua conta, você concorda com nossos <a href="/terms">Termos de Uso</a> e <a href="/privacy">Política de Privacidade</a>.
+              Ao criar sua conta, você concorda com nossos <Link href="/terms">Termos de Uso</Link> e <Link href="/privacy">Política de Privacidade</Link>.
             </p>
           </form>
         )}
