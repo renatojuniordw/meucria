@@ -1,0 +1,157 @@
+.container {
+  position: relative;
+  display: inline-block;
+  min-width: 200px;
+}
+
+.loadingWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 200px;
+  color: var(--text-secondary, #666);
+}
+
+.triggerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-primary, #ffffff);
+  border: 1px solid var(--border-color, #eaeaea);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--bg-muted, #f8f9fa);
+  }
+
+  .activeInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+
+    .label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary, #888);
+    }
+    .name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary, #111);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    }
+  }
+
+  .icon {
+    color: var(--text-secondary, #666);
+    transition: transform 0.2s;
+  }
+  .iconOpen {
+    color: var(--text-primary, #111);
+    transform: rotate(180deg);
+  }
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  min-width: 240px;
+  margin-top: 0.5rem;
+  background: var(--bg-primary, #ffffff);
+  border: 1px solid var(--border-color, #eaeaea);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+
+  .dropdownHeader {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color, #eaeaea);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary, #666);
+    background: var(--bg-muted, #f8f9fa);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .brandList {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    max-height: 250px;
+    overflow-y: auto;
+    
+    .item, .selectedItem {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: var(--bg-muted, #f8f9fa);
+      }
+
+      .itemInfo {
+        display: flex;
+        flex-direction: column;
+        
+        strong {
+          font-size: 0.875rem;
+          color: var(--text-primary, #111);
+        }
+        span {
+          font-size: 0.75rem;
+          color: var(--text-secondary, #666);
+        }
+      }
+
+      .checkIcon {
+        color: var(--color-primary, #0070f3);
+      }
+    }
+
+    .selectedItem {
+      background: rgba(0, 112, 243, 0.05);
+      
+      &:hover {
+        background: rgba(0, 112, 243, 0.1);
+      }
+    }
+  }
+
+  .dropdownFooter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border-color, #eaeaea);
+    font-size: 0.875rem;
+    color: var(--text-primary, #111);
+    cursor: pointer;
+    background: var(--bg-primary, #ffffff);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+    &:hover {
+      background: var(--bg-muted, #f8f9fa);
+      color: var(--color-primary, #0070f3);
+    }
+  }
+}

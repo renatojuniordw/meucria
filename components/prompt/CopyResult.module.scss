@@ -1,0 +1,105 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-muted, #f8f9fa);
+  border: 1px solid var(--border-color, #eaeaea);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: var(--bg-primary, #fff);
+  border-bottom: 1px solid var(--border-color, #eaeaea);
+
+  .titleInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary, #111);
+
+    .icon {
+      color: #f59e0b; /* Yellow/Orange zap */
+    }
+  }
+
+  .copyAllBtn {
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--text-primary, #111);
+    border: 1px solid var(--border-color, #ccc);
+
+    &:hover {
+      background: var(--bg-muted, #f4f4f5);
+      border-color: var(--text-secondary, #888);
+    }
+  }
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  gap: 1rem;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--border-color, #eaeaea);
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .blockHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    strong {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary, #666);
+    }
+
+    .iconBtn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary, #888);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+
+      &:hover {
+        background: var(--border-color, #eaeaea);
+        color: var(--text-primary, #111);
+      }
+
+      .successIcon {
+        color: var(--color-primary, #0070f3);
+      }
+    }
+  }
+
+  .blockText {
+    font-size: 0.9375rem;
+    color: var(--text-primary, #111);
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+}

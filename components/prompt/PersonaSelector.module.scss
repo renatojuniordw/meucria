@@ -1,0 +1,139 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.toggleArea {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #eaeaea);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+
+  &:hover {
+    background: var(--bg-muted, #f8f9fa);
+  }
+
+  &.activeToggle {
+    border-color: var(--color-primary, #0070f3);
+    background: rgba(0, 112, 243, 0.02);
+
+    .iconBox {
+      background: rgba(0, 112, 243, 0.1);
+      color: var(--color-primary, #0070f3);
+    }
+  }
+
+  .iconBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--bg-muted, #f4f4f5);
+    border-radius: 8px;
+    color: var(--text-secondary, #666);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    flex: 1;
+
+    strong {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary, #111);
+    }
+    span {
+      font-size: 0.75rem;
+      color: var(--text-secondary, #666);
+    }
+  }
+
+  .switch {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    background: var(--text-secondary, #888);
+    border-radius: 9999px;
+    transition: background 0.2s;
+
+    .knob {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    &.switchOn {
+      background: var(--color-primary, #0070f3);
+      .knob {
+        transform: translateX(18px);
+      }
+    }
+  }
+}
+
+.personaInput {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: fadeIn 0.3s ease;
+
+  .textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-primary, #0070f3);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--text-primary, #111);
+    resize: vertical;
+    min-height: 80px;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.1);
+    }
+
+    &.errorBorder {
+      border-color: var(--color-error, #e53e3e);
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .errorText {
+      font-size: 0.75rem;
+      color: var(--color-error, #e53e3e);
+    }
+
+    .charCount {
+      font-size: 0.75rem;
+      color: var(--text-secondary, #666);
+      margin-left: auto;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
