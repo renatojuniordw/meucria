@@ -1,0 +1,145 @@
+services:
+  # ──────────────────────────────────────
+  # Redis — Cache, Rate Limiting, Sessions
+  # ──────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: meucria-redis
+    restart: unless-stopped
+    # NO ports exposed to host — only accessible inside Docker network
+    expose:
+      - "6379"
+    volumes:
+      - redis_data:/data
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 128mb
+      --maxmemory-policy allkeys-lru
+      --requirepass ${REDIS_PASSWORD:-meucria_redis_s3cret}
+      --bind 0.0.0.0
+      --protected-mode yes
+      --rename-command FLUSHALL ""
+      --rename-command FLUSHDB ""
+      --rename-command DEBUG ""
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-meucria_redis_s3cret}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - internal
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+
+  # ──────────────────────────────────────
+  # App — Next.js (Development)
+  # port 3000 exposed to host for local dev
+  # ──────────────────────────────────────
+  app-dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    container_name: meucria-app-dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.docker
+    environment:
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-meucria_redis_s3cret}@redis:6379
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - internal
+    profiles:
+      - dev
+
+  # ──────────────────────────────────────
+  # App — Next.js (Production)
+  # NOT exposed to host — only via Nginx
+  # ──────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+        - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+    container_name: meucria-app
+    restart: unless-stopped
+    # Only expose internally — Nginx handles public traffic
+    expose:
+      - "3000"
+    env_file:
+      - .env.docker
+    environment:
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-meucria_redis_s3cret}@redis:6379
+      - NODE_ENV=production
+      - HOSTNAME=0.0.0.0
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - internal
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/.next/cache
+    profiles:
+      - prod
+
+  # ──────────────────────────────────────
+  # Nginx — Reverse Proxy + SSL
+  # ONLY service with public ports
+  # ──────────────────────────────────────
+  nginx:
+    image: nginx:alpine
+    container_name: meucria-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    networks:
+      - internal
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+      - /run
+    profiles:
+      - prod
+
+networks:
+  internal:
+    driver: bridge
+    internal: false  # false to allow outbound (Supabase, OpenAI, Stripe)
+
+volumes:
+  redis_data:
+    driver: local
