@@ -1,0 +1,15 @@
+# docker/Dockerfile.dev — Development with hot reload
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install deps first (cached layer)
+COPY package*.json ./
+RUN npm ci
+
+# Copy source (overridden by volume mount in docker-compose)
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

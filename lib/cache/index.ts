@@ -1,35 +1,25 @@
-import { Redis } from '@upstash/redis'
-
-const redis = Redis.fromEnv()
+import { redisGet, redisSet, redisDel } from '@/lib/redis/client'
 
 export async function getCachedProfile(userId: string) {
-  const key = `profile:${userId}`
-  const cached = await redis.get(key)
-  if (cached) return cached as Record<string, unknown>
-  return null
+  return redisGet<Record<string, unknown>>(`profile:${userId}`)
 }
 
 export async function setCachedProfile(userId: string, profile: Record<string, unknown>) {
-  const key = `profile:${userId}`
-  await redis.set(key, profile, { ex: 60 * 5 }) // 5 minutes
+  await redisSet(`profile:${userId}`, profile, 60 * 5) // 5 minutes
 }
 
 export async function invalidateProfileCache(userId: string) {
-  await redis.del(`profile:${userId}`)
+  await redisDel(`profile:${userId}`)
 }
 
 export async function getCachedActiveBrand(brandId: string) {
-  const key = `brand:${brandId}`
-  const cached = await redis.get(key)
-  if (cached) return cached as Record<string, unknown>
-  return null
+  return redisGet<Record<string, unknown>>(`brand:${brandId}`)
 }
 
 export async function setCachedActiveBrand(brandId: string, brand: Record<string, unknown>) {
-  const key = `brand:${brandId}`
-  await redis.set(key, brand, { ex: 60 * 10 }) // 10 minutes
+  await redisSet(`brand:${brandId}`, brand, 60 * 10) // 10 minutes
 }
 
 export async function invalidateBrandCache(brandId: string) {
-  await redis.del(`brand:${brandId}`)
+  await redisDel(`brand:${brandId}`)
 }

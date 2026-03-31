@@ -1,16 +1,35 @@
 // lib/upstash/ratelimit.ts
-import { Ratelimit } from '@upstash/ratelimit'
-import { Redis } from '@upstash/redis'
+// Rate limiting using ioredis (works with local Redis + Docker)
+import { getRedis, redisIncr, redisExpire } from '@/lib/redis/client'
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-})
+interface RateLimitResult {
+  success: boolean
+  remaining: number
+}
 
-// Create a new ratelimiter, that allows 10 requests per 60 seconds
-export const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(10, '60 s'),
-  analytics: true,
-  prefix: '@upstash/ratelimit',
-})
+const WINDOW_SIZE = 60 // seconds
+const MAX_REQUESTS = 10
+
+export const ratelimit = {
+  async limit(identifier: string): Promise<RateLimitResult> {
+    const key = `ratelimit:${identifier}:${Math.floor(Date.now() / 1000 / WINDOW_SIZE)}`
+
+    try {
+      const count = await redisIncr(key)
+
+      // Set TTL on first request in window
+      if (count === 1) {
+        await redisExpire(key, WINDOW_SIZE)
+      }
+
+      return {
+        success: count <= MAX_REQUESTS,
+        remaining: Math.max(0, MAX_REQUESTS - count),
+      }
+    } catch (err) {
+      console.error('[Ratelimit] Error:', err)
+      // Fail open — don't block users if Redis is down
+      return { success: true, remaining: MAX_REQUESTS }
+    }
+  },
+}

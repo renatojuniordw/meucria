@@ -31,6 +31,7 @@ const nextConfig = {
   },
   compress: true,
   poweredByHeader: false,
+  output: 'standalone' as const,
   async headers() {
     return [
       {
