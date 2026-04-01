@@ -1,7 +1,7 @@
 // components/prompt/PromptWizard.tsx
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useActiveBrand } from '@/hooks/useActiveBrand'
 import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
@@ -21,6 +21,7 @@ export const PromptWizard = () => {
   const [result, setResult] = useState<PromptResult | null>(null)
   const [activeTab, setActiveTab] = useState(0)
   const [copied, setCopied] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const [form, setForm] = useState({
     format: 'feed',
@@ -41,6 +42,8 @@ export const PromptWizard = () => {
   const handleGenerate = async () => {
     if (!brand) return
     setLoading(true)
+    setError(null)
+    setResult(null)
     try {
       const res = await fetch('/api/prompt/generate', {
         method: 'POST',
@@ -48,6 +51,16 @@ export const PromptWizard = () => {
         body: JSON.stringify({ ...form, brandId: brand.id }),
       })
       const data = await res.json()
+      if (!res.ok) {
+        if (res.status === 403) {
+          setError('Você atingiu o limite de gerações do seu plano. Faça upgrade para continuar.')
+        } else if (res.status === 429) {
+          setError('Muitas requisições. Aguarde um momento e tente novamente.')
+        } else {
+          setError(data.error ?? 'Erro ao gerar prompt. Tente novamente.')
+        }
+        return
+      }
       if (data.prompt) {
         const jsonMatch = data.prompt.match(/```json\n([\s\S]*?)\n```/)
         const parsed = jsonMatch ? JSON.parse(jsonMatch[1]) : JSON.parse(data.prompt)
@@ -71,6 +84,7 @@ export const PromptWizard = () => {
       }
     } catch (err) {
       console.error(err)
+      setError('Erro inesperado. Verifique sua conexão e tente novamente.')
     } finally {
       setLoading(false)
     }
@@ -125,41 +139,55 @@ export const PromptWizard = () => {
         </div>
 
         <div className={styles.resultZone}>
-          {result ? (
+          {loading ? (
+            <div className={styles.loadingState}>
+              <div className={styles.loadingBar} />
+              <div className={styles.loadingBar} style={{ width: '75%' }} />
+              <div className={styles.loadingBar} style={{ width: '88%' }} />
+              <div className={styles.loadingBar} style={{ width: '60%' }} />
+              <div className={styles.loadingBar} style={{ width: '82%' }} />
+              <p className={styles.loadingLabel}>GERANDO PROMPT...</p>
+            </div>
+          ) : error ? (
+            <div className={styles.errorMessage}>{error}</div>
+          ) : result ? (
             <div className={styles.resultCard}>
-              {multiSlide && (
-                <div className={styles.tabs}>
-                  {result.slides.map((s, i) => (
-                    <button
-                      key={s.slide}
-                      className={`${styles.tab} ${activeTab === i ? styles.tabActive : ''}`}
-                      onClick={() => setActiveTab(i)}
-                    >
-                      {s.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              <pre className={styles.promptText}>{result.slides[activeTab].prompt}</pre>
-
-              <div className={styles.copyActions}>
-                <Button
-                  variant="outline"
-                  onClick={() => handleCopy(result.slides[activeTab].prompt, 'single')}
-                >
-                  {copied === 'single' ? 'COPIADO!' : 'COPIAR PROMPT'}
-                </Button>
-
-                {multiSlide && (
+              <div className={styles.resultHeader}>
+                {multiSlide ? (
+                  <div className={styles.tabs}>
+                    {result.slides.map((s, i) => (
+                      <button
+                        key={s.slide}
+                        className={`${styles.tab} ${activeTab === i ? styles.tabActive : ''}`}
+                        onClick={() => setActiveTab(i)}
+                      >
+                        {s.label}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <span />
+                )}
+                <div className={styles.copyActions}>
                   <Button
                     variant="outline"
-                    onClick={() => handleCopy(buildMarkdown(result), 'all')}
+                    onClick={() => handleCopy(result.slides[activeTab].prompt, 'single')}
                   >
-                    {copied === 'all' ? 'COPIADO!' : 'COPIAR TUDO'}
+                    {copied === 'single' ? 'COPIADO!' : 'COPIAR PROMPT'}
                   </Button>
-                )}
+
+                  {multiSlide && (
+                    <Button
+                      variant="outline"
+                      onClick={() => handleCopy(buildMarkdown(result), 'all')}
+                    >
+                      {copied === 'all' ? 'COPIADO!' : 'COPIAR TUDO'}
+                    </Button>
+                  )}
+                </div>
               </div>
+
+              <pre className={styles.promptText}>{result.slides[activeTab].prompt}</pre>
             </div>
           ) : (
             <div className={styles.placeholder}>SEU PROMPT APARECERÁ AQUI</div>
