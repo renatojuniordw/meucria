@@ -1,8 +1,10 @@
 // components/prompt/PromptWizard.tsx
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useActiveBrand } from '@/hooks/useActiveBrand'
+import { useBrands } from '@/hooks/useBrands'
+import { useCurrentPlan } from '@/hooks/useCurrentPlan'
 import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
 import styles from './PromptWizard.module.scss'
@@ -16,12 +18,19 @@ const buildMarkdown = (result: PromptResult) =>
   result.slides.map((s) => `## Slide ${s.slide} — ${s.label}\n\n${s.prompt}`).join('\n\n---\n\n')
 
 export const PromptWizard = () => {
-  const { brand, loading: brandLoading } = useActiveBrand()
+  const { brand: activeBrand, loading: brandLoading } = useActiveBrand()
+  const { brands } = useBrands()
+  const { isPro } = useCurrentPlan()
+  const [selectedBrandId, setSelectedBrandId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<PromptResult | null>(null)
   const [activeTab, setActiveTab] = useState(0)
   const [copied, setCopied] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (activeBrand && !selectedBrandId) setSelectedBrandId(activeBrand.id)
+  }, [activeBrand, selectedBrandId])
 
   const [form, setForm] = useState({
     format: 'feed',
@@ -33,6 +42,11 @@ export const PromptWizard = () => {
     colorMode: 'ai',
   })
 
+  const selectedBrand =
+    isPro && brands.length > 0
+      ? (brands.find((b) => b.id === selectedBrandId) ?? activeBrand)
+      : activeBrand
+
   const handleCopy = (text: string, key: string) => {
     copyText(text)
     setCopied(key)
@@ -40,7 +54,7 @@ export const PromptWizard = () => {
   }
 
   const handleGenerate = async () => {
-    if (!brand) return
+    if (!selectedBrand) return
     setLoading(true)
     setError(null)
     setResult(null)
@@ -48,7 +62,7 @@ export const PromptWizard = () => {
       const res = await fetch('/api/prompt/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, brandId: brand.id }),
+        body: JSON.stringify({ ...form, brandId: selectedBrand.id }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -70,7 +84,7 @@ export const PromptWizard = () => {
         } else if (parsed.prompts) {
           setResult({
             format: form.format,
-            brand: brand.name,
+            brand: selectedBrand.name,
             slides: parsed.prompts.map(
               (p: { prompt: string }, i: number) => ({
                 slide: i + 1,
@@ -91,15 +105,33 @@ export const PromptWizard = () => {
   }
 
   if (brandLoading) return <div>Carregando...</div>
-  if (!brand) return <div>Nenhuma marca ativa encontrada.</div>
+  if (!selectedBrand) return <div>Nenhuma marca ativa encontrada.</div>
 
   const multiSlide = result && result.slides.length > 1
+  const showBrandSelector = isPro && brands.length > 1
 
   return (
     <div className={styles.wizard}>
       <header className={styles.header}>
         <h2 className={styles.title}>GERAR PROMPT</h2>
-        <p className={styles.subtitle}>MARCA: {brand.name}</p>
+        {showBrandSelector ? (
+          <div className={styles.brandSelector}>
+            <label className={styles.brandSelectorLabel}>MARCA</label>
+            <div className={styles.brandSelectorOptions}>
+              {brands.map((b) => (
+                <button
+                  key={b.id}
+                  className={`${styles.brandOption} ${selectedBrandId === b.id ? styles.brandOptionActive : ''}`}
+                  onClick={() => setSelectedBrandId(b.id)}
+                >
+                  {b.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <p className={styles.subtitle}>MARCA: {selectedBrand.name}</p>
+        )}
       </header>
 
       <div className={styles.grid}>

@@ -26,6 +26,58 @@
   margin: 0 auto;
 }
 
+.brandSelector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.brandSelectorLabel {
+  font-family: $font-main;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $color-fg-secondary;
+  letter-spacing: 0.06em;
+}
+
+.brandSelectorOptions {
+  display: flex;
+  gap: $space-xs;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.brandOption {
+  padding: 6px 16px;
+  border-radius: $radius-sm;
+  border: 1px solid $color-border;
+  background: transparent;
+  color: $color-fg-secondary;
+  font-family: $font-main;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $color-bg-secondary;
+    color: $color-fg;
+    border-color: $color-fg;
+  }
+}
+
+.brandOptionActive {
+  background: $color-fg;
+  color: $color-bg;
+  border-color: $color-fg;
+
+  &:hover {
+    background: $color-fg;
+    color: $color-bg;
+  }
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
