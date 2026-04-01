@@ -54,6 +54,19 @@ export const PromptWizard = () => {
         if (parsed.slides) {
           setResult(parsed)
           setActiveTab(0)
+        } else if (parsed.prompts) {
+          setResult({
+            format: form.format,
+            brand: brand.name,
+            slides: parsed.prompts.map(
+              (p: { prompt: string }, i: number) => ({
+                slide: i + 1,
+                label: `Prompt ${i + 1}`,
+                prompt: p.prompt,
+              })
+            ),
+          })
+          setActiveTab(0)
         }
       }
     } catch (err) {
