@@ -9,7 +9,9 @@ import type { PromptInput } from '@/lib/openai/buildDescriptive'
 export async function POST(req: Request) {
   try {
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
     if (!user) {
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
@@ -17,15 +19,22 @@ export async function POST(req: Request) {
 
     const { success } = await ratelimit.limit(user.id)
     if (!success) {
-      return NextResponse.json({ error: 'Muitas requisições. Tente novamente em 1 minuto.' }, { status: 429 })
+      return NextResponse.json(
+        { error: 'Muitas requisições. Tente novamente em 1 minuto.' },
+        { status: 429 }
+      )
     }
 
     const rawBody = await req.json()
     const sanitized = sanitizeInput(rawBody)
     const result = PromptGenerateSchema.safeParse(sanitized)
+    console.log({ rawBody, sanitized, result })
 
     if (!result.success) {
-      return NextResponse.json({ error: 'Dados inválidos', details: result.error.format() }, { status: 400 })
+      return NextResponse.json(
+        { error: 'Dados inválidos', details: result.error.format() },
+        { status: 400 }
+      )
     }
 
     const input = result.data as PromptInput & { brandId: string }

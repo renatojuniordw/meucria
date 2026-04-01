@@ -1,13 +1,17 @@
 // lib/openai/promptCache.ts
-import { createClient } from '@supabase/supabase-js'
+import fs from 'fs/promises'
+import path from 'path'
 import { redisGet, redisSet } from '@/lib/redis/client'
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
-
 export type PromptId = 'generate' | 'copy' | 'clone' | 'suggest_colors' | 'suggest_content'
+
+const KB_FILES: Record<PromptId, string> = {
+  generate: 'meucria-system-prompt-generate.md',
+  clone: 'meucria-prompt-clone.md',
+  copy: 'meucria-prompt-copy.md',
+  suggest_colors: 'meucria-prompt-suggest-colors.md',
+  suggest_content: 'meucria-prompt-suggest-content.md',
+}
 
 export async function getSystemPrompt(id: PromptId): Promise<string> {
   const cacheKey = `system_prompt:${id}`
@@ -16,28 +20,13 @@ export async function getSystemPrompt(id: PromptId): Promise<string> {
   const cached = await redisGet<string>(cacheKey)
   if (cached) return cached
 
-  // 2. Fetch from DB
-  const { data, error } = await supabaseAdmin
-    .from('system_prompts')
-    .select('content')
-    .eq('id', id)
-    .single()
+  // 2. Read from local kb/ file
+  const filename = KB_FILES[id]
+  const filepath = path.join(process.cwd(), 'kb', filename)
+  const content = await fs.readFile(filepath, 'utf-8')
 
-  if (error || !data) {
-    console.warn(`System prompt '${id}' not found in DB. Using fallback.`)
-    // Hardcoded fallbacks to prevent crash if table is empty
-    const fallbacks: Record<PromptId, string> = {
-      suggest_colors: 'Você é um especialista em design de marcas. Retorne APENAS um objeto JSON com chaves: "primary", "secondary", e "accent", contendo as cores em formato hexadecimal (ex: #FFFFFF) mais adequadas para o nicho informado.',
-      suggest_content: 'Você é um copywriter. Retorne um JSON com "objective" (objetivo da marca) e "contentText" (texto curto).',
-      generate: 'Você é um AI gerador de prompts de imagem.',
-      copy: 'Você é um copywriter especialista.',
-      clone: 'Você é um especialista em extração de estilo de imagem.'
-    }
-    return fallbacks[id] || 'You are a helpful assistant.'
-  }
+  // 3. Cache it (TTL 10 min)
+  await redisSet(cacheKey, content, 600)
 
-  // 3. Set cache (TTL 10 min)
-  await redisSet(cacheKey, data.content, 600)
-
-  return data.content
+  return content
 }

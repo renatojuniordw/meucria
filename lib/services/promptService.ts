@@ -1,12 +1,20 @@
 import { getBrand } from '@/lib/repositories/brandRepo'
-import { getProfile, incrementPromptsUsed, resetPromptsIfNeeded, logUsageEvent } from '@/lib/repositories/profileRepo'
+import {
+  getProfile,
+  incrementPromptsUsed,
+  resetPromptsIfNeeded,
+  logUsageEvent,
+} from '@/lib/repositories/profileRepo'
 import { savePrompt } from '@/lib/repositories/promptRepo'
 import { buildDescriptive, type PromptInput } from '@/lib/openai/buildDescriptive'
 import { generatePrompt } from '@/lib/openai/generatePrompt'
 import { checkPromptLimit } from '@/lib/utils/usageLimits'
 import type { PlanId } from '@/lib/utils/usageLimits'
 
-export async function generatePromptService(userId: string, input: PromptInput & { brandId: string }) {
+export async function generatePromptService(
+  userId: string,
+  input: PromptInput & { brandId: string }
+) {
   // 1. Get profile and check reset cycle
   let profile = await getProfile(userId)
   profile = await resetPromptsIfNeeded(userId, profile)
@@ -20,8 +28,13 @@ export async function generatePromptService(userId: string, input: PromptInput &
   const brand = await getBrand(input.brandId, userId)
 
   // 4. Build descriptive and generate
-  const descriptive = buildDescriptive(brand as unknown as import('@/lib/openai/buildDescriptive').Brand, input)
+  const descriptive = buildDescriptive(
+    brand as unknown as import('@/lib/openai/buildDescriptive').Brand,
+    input
+  )
   const generatedPrompt = await generatePrompt(descriptive)
+
+  console.log({ descriptive, generatedPrompt })
 
   // 5. Save prompt
   await savePrompt({
@@ -40,7 +53,7 @@ export async function generatePromptService(userId: string, input: PromptInput &
   await logUsageEvent(userId, 'prompt_generated', { format: input.format })
 
   // 8. Check 80% warning
-  const limit = profile.plan === 'pro' ? Infinity : (profile.plan === 'basic' ? 60 : 15)
+  const limit = profile.plan === 'pro' ? Infinity : profile.plan === 'basic' ? 60 : 15
   const usagePercent = (profile.prompts_used + 1) / limit
   const shouldWarn = usagePercent >= 0.8 && limit !== Infinity
 

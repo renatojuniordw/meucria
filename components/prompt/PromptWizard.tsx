@@ -13,9 +13,7 @@ type PromptResult = { format: string; brand: string; slides: Slide[] }
 const copyText = (text: string) => navigator.clipboard.writeText(text)
 
 const buildMarkdown = (result: PromptResult) =>
-  result.slides
-    .map(s => `## Slide ${s.slide} — ${s.label}\n\n${s.prompt}`)
-    .join('\n\n---\n\n')
+  result.slides.map((s) => `## Slide ${s.slide} — ${s.label}\n\n${s.prompt}`).join('\n\n---\n\n')
 
 export const PromptWizard = () => {
   const { brand, loading: brandLoading } = useActiveBrand()
@@ -31,7 +29,7 @@ export const PromptWizard = () => {
     contentText: '',
     hasPersona: false,
     personaDescription: '',
-    colorMode: 'ai'
+    colorMode: 'ai',
   })
 
   const handleCopy = (text: string, key: string) => {
@@ -50,9 +48,13 @@ export const PromptWizard = () => {
         body: JSON.stringify({ ...form, brandId: brand.id }),
       })
       const data = await res.json()
-      if (data.slides) {
-        setResult(data)
-        setActiveTab(0)
+      if (data.prompt) {
+        const jsonMatch = data.prompt.match(/```json\n([\s\S]*?)\n```/)
+        const parsed = jsonMatch ? JSON.parse(jsonMatch[1]) : JSON.parse(data.prompt)
+        if (parsed.slides) {
+          setResult(parsed)
+          setActiveTab(0)
+        }
       }
     } catch (err) {
       console.error(err)
@@ -78,7 +80,7 @@ export const PromptWizard = () => {
           <div className={styles.group}>
             <label>FORMATO</label>
             <div className={styles.toggleGroup}>
-              {['feed', 'story', 'carousel'].map(f => (
+              {['feed', 'story', 'carousel'].map((f) => (
                 <Button
                   key={f}
                   variant={form.format === f ? 'primary' : 'outline'}
@@ -126,9 +128,7 @@ export const PromptWizard = () => {
                 </div>
               )}
 
-              <pre className={styles.promptText}>
-                {result.slides[activeTab].prompt}
-              </pre>
+              <pre className={styles.promptText}>{result.slides[activeTab].prompt}</pre>
 
               <div className={styles.copyActions}>
                 <Button
@@ -149,9 +149,7 @@ export const PromptWizard = () => {
               </div>
             </div>
           ) : (
-            <div className={styles.placeholder}>
-              SEU PROMPT APARECERÁ AQUI
-            </div>
+            <div className={styles.placeholder}>SEU PROMPT APARECERÁ AQUI</div>
           )}
         </div>
       </div>
