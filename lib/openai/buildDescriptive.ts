@@ -26,45 +26,66 @@ export interface PromptInput {
 }
 
 export function buildDescriptive(brand: Brand, input: PromptInput): string {
-  const lines: string[] = []
-
-  // MARCA
-  lines.push(`Brand: ${brand.name}`)
-  lines.push(`Niche: ${brand.niche}`)
-  if (brand.description) lines.push(`Brand description: ${brand.description}`)
-
-  // FORMATO DO CRIATIVO
-  lines.push(`Creative format: ${input.format}`)
-  if (input.hasPersona && input.personaDescription) {
-    lines.push(`Persona: ${sanitizeString(input.personaDescription)}`)
+  // Constrói o schema exato pedido pelo system prompt V2
+  const briefing: Record<string, any> = {
+    brand_name: brand.name,
+    niche: brand.niche,
+    description: brand.description || '',
+    format: input.format,
+    theme: sanitizeString(input.objective)
   }
 
-  // OBJETIVO / MENSAGEM
-  lines.push(`Objective: ${sanitizeString(input.objective)}`)
+  if (input.format === 'carousel') {
+    briefing.carousel_slides = 3 // default for carousels
+  }
+
+  // Agrega text content extra (Persona / Manual Text) ao tema, já que o prompt base não tem campos pra isso
+  const extraTheme: string[] = []
   if (input.contentMode === 'manual' && input.contentText) {
-    lines.push(`Content text: ${sanitizeString(input.contentText)}`)
+    extraTheme.push(`Texto sugerido: ${sanitizeString(input.contentText)}`)
+  }
+  if (input.hasPersona && input.personaDescription) {
+    extraTheme.push(`Persona alvo: ${sanitizeString(input.personaDescription)}`)
+  }
+  if (extraTheme.length > 0) {
+    briefing.theme += ' | ' + extraTheme.join(' | ')
   }
 
-  // CORES
-  if (input.colorMode === 'manual' && input.colors) {
-    lines.push(`Brand colors: primary ${input.colors.primary}, secondary ${input.colors.secondary}, accent ${input.colors.accent}`)
-  } else if (input.colorMode === 'ai' || brand.color_mode === 'ai') {
-    lines.push(`Colors: choose colors appropriate to the niche and brand personality`)
-  }
-
-  // TIPOGRAFIA
-  const fontMode = input.fontModeOverride ?? brand.font_mode
-  const fonts = input.fontsOverride ?? brand.fonts
-
-  if (fontMode === 'ai' || !fonts) {
-    lines.push(`Typography: choose fonts appropriate to the niche and brand style`)
+  // Lógica de cores
+  const isAiColor = input.colorMode === 'ai' || (input.colorMode !== 'palette' && input.colorMode !== 'manual' && brand.color_mode === 'ai')
+  
+  if (isAiColor) {
+    briefing.colors = { mode: 'ai_decide' }
   } else {
-    const parts: string[] = []
-    if (fonts.title) parts.push(`${fonts.title} for headlines`)
-    if (fonts.body) parts.push(`${fonts.body} for body text`)
-    if (fonts.accent) parts.push(`${fonts.accent} for accent`)
-    if (parts.length) lines.push(`Typography: ${parts.join(', ')}`)
+    const colorsObj = input.colors || brand.colors
+    if (colorsObj && typeof colorsObj === 'object') {
+      briefing.colors = {
+        mode: 'manual',
+        hex_values: [colorsObj.primary, colorsObj.secondary, colorsObj.accent].filter(Boolean)
+      }
+    } else {
+      briefing.colors = { mode: 'ai_decide' }
+    }
   }
 
-  return lines.join('\n')
+  // Lógica de tipografia
+  const fontMode = input.fontModeOverride ?? brand.font_mode
+  
+  if (fontMode === 'ai') {
+    briefing.typography = { mode: 'ai_decide' }
+  } else {
+    const fontsObj = input.fontsOverride || brand.fonts
+    if (fontsObj && typeof fontsObj === 'object') {
+      briefing.typography = {
+        mode: 'manual',
+        title_font: fontsObj.title || '',
+        body_font: fontsObj.body || '',
+        highlight_font: fontsObj.accent || ''
+      }
+    } else {
+      briefing.typography = { mode: 'ai_decide' }
+    }
+  }
+
+  return JSON.stringify(briefing, null, 2)
 }

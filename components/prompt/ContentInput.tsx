@@ -63,8 +63,8 @@ export function ContentInput({
           <div className={styles.aiMode}>
             <Sparkles size={24} className={styles.icon} />
             <div className={styles.info}>
-              <strong>A IA criará o texto com base no seu objetivo</strong>
-              <p>Você definiu um objetivo no passo anterior, e a IA vai gerar um texto persuasivo adaptado à sua marca.</p>
+              <strong>Acreditamos na criatividade guiada por dados.</strong>
+              <p>Nossa IA analisará o seu nicho, seu público-alvo e o objetivo da sua campanha para sugerir o texto mais engajador e alinhado à sua identidade visual.</p>
             </div>
           </div>
         )}

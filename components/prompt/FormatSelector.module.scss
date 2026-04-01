@@ -1,7 +1,10 @@
+// components/prompt/FormatSelector.module.scss
+@use '@/app/variables' as *;
+
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 1rem;
+  gap: $space-md;
 }
 
 .card {
@@ -9,47 +12,57 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 1.25rem 1rem;
-  background: var(--bg-primary, #fff);
-  border: 1px solid var(--border-color, #eaeaea);
-  border-radius: 8px;
+  padding: $space-lg $space-md;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all $transition-base;
 
   &:hover {
-    background: var(--bg-muted, #f8f9fa);
+    background: $color-bg-secondary;
+    transform: translateY(-2px);
+    box-shadow: $shadow-sm;
   }
 
   &.active {
-    border-color: var(--color-primary, #0070f3);
-    background: rgba(0, 112, 243, 0.05);
-    box-shadow: 0 0 0 1px var(--color-primary, #0070f3);
+    border-color: $color-fg;
+    background: $color-bg-secondary;
+    box-shadow: 0 0 0 1px $color-fg;
 
     .icon {
-      color: var(--color-primary, #0070f3);
+      color: $color-fg;
+      transform: scale(1.1);
+    }
+    
+    .label {
+      font-weight: 700;
     }
   }
 
   .icon {
-    color: var(--text-secondary, #666);
-    margin-bottom: 0.75rem;
-    transition: color 0.2s;
+    color: $color-fg-secondary;
+    margin-bottom: $space-sm;
+    transition: all $transition-fast;
   }
 
   .info {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 4px;
 
     .label {
+      font-family: $font-main;
       font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--text-primary, #111);
+      font-weight: 500;
+      color: $color-fg;
+      transition: font-weight $transition-fast;
     }
 
     .desc {
+      font-family: $font-main;
       font-size: 0.75rem;
-      color: var(--text-secondary, #666);
+      color: $color-fg-secondary;
     }
   }
 }

@@ -2,47 +2,55 @@
 @use '@/app/variables' as *;
 
 .card {
-  background: #050505;
+  background: $color-bg;
   border: 1px solid $color-border;
+  border-radius: $radius-lg;
   padding: $space-lg;
   display: flex;
   flex-direction: column;
   gap: $space-xs;
-  transition: border-color $transition-fast;
+  box-shadow: $shadow-sm;
+  transition: all $transition-fast;
 
   &:hover {
-    border-color: $color-accent;
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
   }
 }
 
 .label {
-  font-family: $font-mono;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  color: $color-muted;
+  font-family: $font-main;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: $color-fg-secondary;
 }
 
 .value {
-  font-size: 2.5rem;
-  font-weight: 900;
-  letter-spacing: -0.05em;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: $color-fg;
+  letter-spacing: -0.03em;
 }
 
 .sublabel {
-  font-family: $font-mono;
-  font-size: 0.65rem;
-  color: #444;
+  font-family: $font-main;
+  font-size: 0.75rem;
+  color: $color-fg-secondary;
+  margin-top: -4px;
 }
 
 .progressContainer {
   margin-top: $space-md;
-  height: 2px;
-  background: #111;
+  height: 4px;
+  background: $color-muted;
+  border-radius: $radius-xl;
   width: 100%;
+  overflow: hidden;
 }
 
 .progressBar {
   height: 100%;
   background: $color-accent;
-  transition: width $transition-base;
+  border-radius: $radius-xl;
+  transition: width $transition-slow;
 }

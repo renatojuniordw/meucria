@@ -9,13 +9,13 @@ import { useCurrentPlan } from '@/hooks/useCurrentPlan'
 
 export function BrandLimitBadge() {
   const router = useRouter()
-  const { brands, isLoading: isLoadingBrands } = useBrands()
-  const { plan, isLoading: isLoadingPlan } = useCurrentPlan()
+  const { brands, loading: isLoadingBrands } = useBrands()
+  const { planData, loading: isLoadingPlan } = useCurrentPlan()
 
   if (isLoadingBrands || isLoadingPlan) return null
 
   const used = brands.length
-  const limit = plan?.brandLimit || 1
+  const limit = planData?.brandLimit || 1
   const isUnlimited = limit === Infinity
   
   // Se for ilimitado (Pro) não mostra badge ou mostra um discreto

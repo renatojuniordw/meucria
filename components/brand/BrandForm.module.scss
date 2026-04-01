@@ -1,14 +1,15 @@
 .formContainer {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-md);
   width: 100%;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .grid2 {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: var(--space-md);
 
   @media (min-width: 640px) {
     grid-template-columns: 1fr 1fr;
@@ -18,36 +19,36 @@
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 
   label {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--text-primary, #111);
+    color: var(--color-fg);
   }
 }
 
 .divider {
   border: 0;
-  border-top: 1px solid var(--border-color, #eaeaea);
-  margin: 1rem 0;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-md) 0;
 }
 
 .formSection {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-lg);
 
   .sectionHeader {
     h3 {
       font-size: 1.125rem;
       font-weight: 600;
-      color: var(--text-primary, #111);
+      color: var(--color-fg);
       margin: 0 0 0.25rem 0;
     }
     p {
       font-size: 0.875rem;
-      color: var(--text-secondary, #666);
+      color: var(--color-muted);
       margin: 0;
     }
   }
@@ -61,9 +62,13 @@
 .formActions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 2rem;
+  margin-top: var(--space-lg);
 
   .submitBtn {
     min-width: 150px;
+    transition: transform 0.2s ease;
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 }

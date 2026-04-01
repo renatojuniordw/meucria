@@ -2,50 +2,66 @@
 @use '@/app/variables' as *;
 
 .header {
-  border-bottom: 2px solid $color-border;
-  background: rgba($color-bg, 0.8);
-  backdrop-filter: blur(10px);
+  border-bottom: 1px solid $color-border;
+  background: rgba($color-bg, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: all $transition-base;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: $space-md;
+  padding: 14px $space-md;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .logo {
-  font-family: $font-mono;
-  font-weight: 900;
-  font-size: 1.5rem;
-  letter-spacing: -0.05em;
+  font-family: $font-main;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: $color-fg;
 }
 
 .accent {
   color: $color-accent;
+  font-weight: 800;
 }
 
 .nav {
   display: flex;
   align-items: center;
   gap: $space-lg;
-  font-family: $font-mono;
+  font-family: $font-main;
+  font-weight: 500;
   font-size: 0.875rem;
-  text-transform: uppercase;
+  color: $color-fg-secondary;
+}
+
+.navLink {
+  transition: color $transition-fast;
+  
+  &:hover {
+    color: $color-fg;
+  }
 }
 
 .loginBtn {
-  border: 1px solid $color-fg;
-  padding: $space-xs $space-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl; // Pill shape
+  padding: 8px $space-md;
+  font-weight: 500;
+  color: $color-fg;
   transition: all $transition-fast;
 
   &:hover {
-    background: $color-fg;
-    color: $color-bg;
+    background: $color-bg-secondary;
+    border-color: $color-fg;
   }
 }

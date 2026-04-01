@@ -9,34 +9,38 @@
 }
 
 .label {
-  font-family: $font-mono;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: $color-muted;
+  font-family: $font-main;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $color-fg;
+  letter-spacing: -0.01em;
 }
 
 .input {
   width: 100%;
-  padding: $space-sm $space-md;
-  background: transparent;
-  border: 1px solid $color-border;
+  padding: 14px $space-md;
+  background: $color-bg-secondary;
+  border: 1px solid transparent;
   color: $color-fg;
   font-family: $font-main;
+  font-size: 1rem;
   border-radius: $radius-sm;
-  transition: border-color $transition-fast;
+  transition: all $transition-fast;
 
   &:focus {
     outline: none;
-    border-color: $color-accent;
-    box-shadow: 0 0 0 1px $color-accent;
+    background: $color-bg;
+    border-color: $color-border;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
   }
 
   &::placeholder {
-    color: #444;
+    color: $color-fg-secondary;
   }
 }
 
 .error {
-  font-size: 0.7rem;
-  color: #ff3333;
+  font-size: 0.8125rem;
+  color: #ff3b30; // Apple error color
+  margin-top: 4px;
 }

@@ -1,16 +1,18 @@
+@use '@/app/variables' as *;
+
 .container {
   display: flex;
   flex-direction: column;
-  background: var(--bg-primary, #fff);
-  border: 1px solid var(--border-color, #eaeaea);
-  border-radius: 8px;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: $shadow-md;
   animation: slideUp 0.4s ease-out;
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -19,69 +21,71 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  background: var(--bg-muted, #f8f9fa);
-  border-bottom: 1px solid var(--border-color, #eaeaea);
+  background: $color-bg-secondary;
+  border-bottom: 1px solid $color-border;
 
   .titleInfo {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: $space-sm;
     font-weight: 600;
     font-size: 1rem;
-    color: var(--text-primary, #111);
+    color: $color-fg;
   }
 
   .actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: $space-sm;
 
     button {
       background: transparent;
-      border: 1px solid var(--border-color, #eaeaea);
-      color: var(--text-secondary, #666);
-      padding: 0.375rem;
-      border-radius: 6px;
+      border: 1px solid $color-border;
+      color: $color-fg-secondary;
+      padding: 6px;
+      border-radius: $radius-sm;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
+      transition: all $transition-fast;
 
       &:hover {
-        background: var(--card-bg, #fff);
-        color: var(--text-primary, #111);
-        border-color: var(--text-secondary, #888);
+        background: $color-bg;
+        color: $color-fg;
+        border-color: $color-fg-secondary;
       }
     }
 
     .copyBtn {
-      gap: 0.5rem;
-      padding: 0.375rem 0.75rem;
-      background: var(--text-primary, #111);
-      color: #fff;
+      gap: 8px;
+      padding: 6px 14px;
+      background: $color-fg;
+      color: $color-bg;
       border: none;
+      font-weight: 500;
 
       &:hover {
-        background: var(--text-secondary, #444);
-        color: #fff;
+        background: lighten($color-fg, 15%);
+        color: $color-bg;
       }
     }
   }
 }
 
 .content {
-  padding: 1.25rem;
+  padding: $space-xl;
+  background: $color-bg;
 
   .textarea {
     width: 100%;
     border: none;
     resize: none;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     line-height: 1.6;
-    color: var(--text-primary, #111);
+    color: $color-fg;
     background: transparent;
-    font-family: 'Space Mono', monospace, sans-serif; /* fallback mono */
+    font-family: $font-mono; 
 
     &:focus {
       outline: none;
@@ -93,27 +97,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  background: var(--bg-muted, #f8f9fa);
-  border-top: 1px solid var(--border-color, #eaeaea);
+  padding: $space-md $space-lg;
+  background: $color-bg-secondary;
+  border-top: 1px solid $color-border;
 
   .feedback {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: $space-sm;
     font-size: 0.8125rem;
-    color: var(--text-secondary, #666);
+    color: $color-fg-secondary;
 
     button {
       background: transparent;
       border: none;
-      color: var(--text-secondary, #888);
+      color: $color-fg-secondary;
       cursor: pointer;
-      padding: 0.25rem;
-      transition: color 0.2s;
+      padding: 4px;
+      transition: color $transition-fast;
 
       &:hover {
-        color: var(--color-primary, #0070f3);
+        color: $color-fg;
       }
     }
   }
@@ -121,20 +125,20 @@
   .uploadBtn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: $space-sm;
     background: transparent;
-    border: 1px dashed var(--border-color, #ccc);
-    padding: 0.375rem 0.75rem;
-    border-radius: 6px;
+    border: 1px dashed $color-border;
+    padding: 6px 12px;
+    border-radius: $radius-sm;
     font-size: 0.8125rem;
-    color: var(--text-secondary, #666);
+    color: $color-fg-secondary;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all $transition-fast;
 
     &:hover {
-      background: var(--bg-primary, #fff);
-      color: var(--text-primary, #111);
-      border-color: var(--text-secondary, #888);
+      background: $color-bg;
+      color: $color-fg;
+      border-color: $color-fg-secondary;
     }
   }
 }

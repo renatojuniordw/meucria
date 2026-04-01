@@ -2,67 +2,80 @@
 @use '@/app/variables' as *;
 
 .sidebar {
-  width: 240px;
+  width: 260px;
   height: 100vh;
-  border-right: 2px solid $color-border;
+  border-right: 1px solid $color-border;
   background: $color-bg;
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 0;
+  z-index: 50;
 }
 
 .logo {
-  padding: $space-xl $space-md;
-  font-family: $font-mono;
-  font-weight: 9400;
+  padding: $space-lg $space-lg;
+  font-family: $font-main;
+  font-weight: 700;
   font-size: 1.25rem;
-  letter-spacing: -0.05em;
-  border-bottom: 1px solid $color-border;
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid transparent; // Cleaner look without hard borders
+  display: flex;
+  align-items: center;
 }
 
 .accent {
   color: $color-accent;
+  font-weight: 800; // Strong feature for brand
 }
 
 .nav {
-  padding: $space-lg 0;
+  padding: $space-md $space-sm;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: $space-xs;
+  gap: 2px;
 }
 
 .navLink {
   display: flex;
   align-items: center;
   gap: $space-md;
-  padding: $space-sm $space-md;
-  font-family: $font-mono;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  color: $color-muted;
+  padding: 10px $space-md;
+  font-family: $font-main;
+  font-weight: 500;
+  font-size: 0.875rem; // 14px
+  color: $color-fg-secondary;
+  border-radius: $radius-sm;
   transition: all $transition-fast;
 
   &:hover {
-    color: $color-bg;
-    background: $color-fg;
+    color: $color-fg;
+    background: $color-bg-secondary;
   }
 
   &.active {
-    color: $color-accent;
-    border-left: 4px solid $color-accent;
+    color: $color-fg;
+    background: $color-bg-secondary;
+    font-weight: 600; // Apple style active states
   }
 }
 
 .profileBox {
   padding: $space-md;
+  margin: $space-sm;
   border-top: 1px solid $color-border;
   display: flex;
   align-items: center;
   gap: $space-sm;
-  font-family: $font-mono;
-  font-size: 0.75rem;
-  color: $color-muted;
-  text-transform: uppercase;
+  font-family: $font-main;
+  font-size: 0.875rem;
+  color: $color-fg-secondary;
+  border-radius: $radius-sm;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: $color-bg-secondary;
+    cursor: pointer;
+  }
 }

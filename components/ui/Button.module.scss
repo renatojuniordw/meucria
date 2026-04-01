@@ -5,51 +5,57 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: $space-sm $space-lg;
-  font-family: $font-mono;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: 2px solid $color-fg;
+  padding: 12px 24px;
+  font-family: $font-main;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+  border: 1px solid transparent;
   background: $color-bg;
   color: $color-fg;
-  border-radius: $radius-sm;
+  border-radius: $radius-md;
   transition: all $transition-fast;
   position: relative;
   overflow: hidden;
+  box-shadow: $shadow-sm;
 
   &:hover {
-    background: $color-accent;
-    color: $color-bg;
-    border-color: $color-accent;
-    transform: translateY(-2px);
-    box-shadow: 4px 4px 0px $color-fg;
+    box-shadow: $shadow-md;
+    transform: translateY(-1px);
   }
 
   &:active {
-    transform: translateY(0);
-    box-shadow: 0px 0px 0px $color-fg;
+    transform: translateY(1px);
+    box-shadow: none;
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
-    filter: grayscale(1);
+    transform: none;
+    box-shadow: none;
   }
 
   &.primary {
     background: $color-accent;
     color: $color-bg;
-    border-color: $color-accent;
+    box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.15); // Apple-like glow
 
     &:hover {
-      background: $color-bg;
-      color: $color-accent;
+      background: lighten($color-accent, 15%);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
   }
 
   &.ghost {
+    background: transparent;
+    box-shadow: none;
     border-color: transparent;
-    &:hover { border-color: $color-accent; }
+    color: $color-fg;
+
+    &:hover { 
+      background: $color-bg-secondary; 
+      transform: none;
+    }
   }
 }

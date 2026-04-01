@@ -34,6 +34,7 @@ export function BrandForm({ initialData, onSubmitData, isSubmitting = false }: B
       description: initialData?.description || '',
       color_mode: initialData?.color_mode || 'ai',
       colors: initialData?.colors || undefined,
+      content_mode: initialData?.content_mode || 'ai',
       font_mode: initialData?.font_mode || 'ai',
       fonts: initialData?.fonts || undefined,
     },

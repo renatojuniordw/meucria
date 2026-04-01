@@ -464,64 +464,42 @@ o que melhora a consistência e qualidade do prompt gerado.
 ```typescript
 // lib/openai/buildDescriptive.ts
 // Recebe dados da marca (banco) + input sanitizado (usuário)
-// Retorna string estruturada para enviar ao GPT como user message
+// Retorna string formatada em JSON estruturado para enviar ao GPT como user message
 
 export function buildDescriptive(brand: Brand, input: PromptInput): string {
-  const lines: string[] = []
-
-  // MARCA
-  lines.push(`Brand: ${brand.name}`)
-  lines.push(`Niche: ${brand.niche}`)
-  if (brand.description) lines.push(`Brand description: ${brand.description}`)
-
-  // FORMATO DO CRIATIVO
-  lines.push(`Creative format: ${input.format}`) // feed | story | carousel
-  if (input.hasPersona && input.personaDescription) {
-    lines.push(`Persona: ${input.personaDescription}`)
+  // Constrói o schema exato pedido pelo system prompt V2
+  const briefing: Record<string, any> = {
+    brand_name: brand.name,
+    niche: brand.niche,
+    description: brand.description || '',
+    format: input.format,
+    theme: sanitizeString(input.objective)
   }
 
-  // OBJETIVO / MENSAGEM
-  lines.push(`Objective: ${input.objective}`)
-  if (input.contentMode === 'manual' && input.contentText) {
-    lines.push(`Content text: ${input.contentText}`)
-  }
+  // Agrega text content extra ao tema
+  // Lógica de cores (manual, palette, ai_decide)
+  // Lógica de tipografia (manual, ai_decide)
+  // ...
 
-  // CORES
-  if (input.colorMode === 'manual' && input.colors) {
-    lines.push(`Brand colors: primary ${input.colors.primary}, secondary ${input.colors.secondary}, accent ${input.colors.accent}`)
-  } else if (input.colorMode === 'ai' || brand.color_mode === 'ai') {
-    lines.push(`Colors: choose colors appropriate to the niche and brand personality`)
-  }
-
-  // TIPOGRAFIA
-  const fontMode = input.fontModeOverride ?? brand.font_mode
-  const fonts    = input.fontsOverride    ?? brand.fonts
-
-  if (fontMode === 'ai' || !fonts) {
-    lines.push(`Typography: choose fonts appropriate to the niche and brand style`)
-  } else {
-    const parts: string[] = []
-    if (fonts.title)  parts.push(`${fonts.title} for headlines`)
-    if (fonts.body)   parts.push(`${fonts.body} for body text`)
-    if (fonts.accent) parts.push(`${fonts.accent} for accent`)
-    if (parts.length) lines.push(`Typography: ${parts.join(', ')}`)
-  }
-
-  return lines.join('
-')
+  return JSON.stringify(briefing, null, 2)
 }
 
 // EXEMPLO DE OUTPUT para um criativo de moda feminina:
 //
-// Brand: Boutique Alma
-// Niche: Moda feminina — boutique
-// Brand description: Roupas femininas para mulheres modernas e sofisticadas
-// Creative format: feed
-// Persona: mulher entre 28 e 40 anos, urbana, gosta de minimalismo
-// Objective: promover a coleção de verão com 30% de desconto
-// Content text: Sale de verão — até 30% off em toda a coleção
-// Brand colors: primary #C97B9C, secondary #F2E9E4, accent #4A2040
-// Typography: Playfair Display for headlines, Lato for body text, Dancing Script for accent
+// {
+//   "brand_name": "Boutique Alma",
+//   "niche": "Moda feminina — boutique",
+//   "description": "Roupas femininas para mulheres modernas e sofisticadas",
+//   "format": "feed",
+//   "theme": "promover a coleção de verão com 30% de desconto | Texto sugerido: Sale de verão",
+//   "colors": {
+//     "mode": "manual",
+//     "hex_values": ["#C97B9C", "#F2E9E4", "#4A2040"]
+//   },
+//   "typography": {
+//     "mode": "ai_decide"
+//   }
+// }
 ```
 
 ---
@@ -587,26 +565,37 @@ export const DescriptiveSchema = z.object({
 ```typescript
 // lib/utils/sanitizeInput.ts
 
-export function sanitizeString(value: string): string {
-  return value
-    .replace(/[\u0000-\u001F\u007F\u200B\uFEFF]/g, '') // remove controle + zero-width chars
-    .replace(/\s+/g, ' ')                               // colapsa múltiplos espaços/tabs/newlines
-    .trim()
+const INJECTION_PATTERNS = [
+  /ignore\s+(all\s+)?(previous\s+)?instructions/i,
+  /agora\s+voc[êe]\s+[eé]/i,
+  /jailbreak/i,
+  /\bDAN\b/
+]
+
+export function sanitizeField(field: string, value: string): string {
+  // Limites, regex e lógica anti-injection
+  // ...
+  return sanitized
+}
+
+export function sanitizeBriefing(raw: Record<string, unknown>): Record<string, unknown> {
+  const textFields = ['niche', 'description', 'objective', 'contentText', 'personaDescription', 'brand_name', 'theme']
+  const sanitized = { ...raw }
+
+  for (const field of textFields) {
+    if (typeof sanitized[field] === 'string') {
+      sanitized[field] = sanitizeField(field, sanitized[field] as string)
+    }
+  }
+  return sanitized
 }
 
 export function sanitizeInput<T extends Record<string, unknown>>(input: T): T {
-  return Object.fromEntries(
-    Object.entries(input).map(([key, value]) => [
-      key,
-      typeof value === 'string' ? sanitizeString(value) : value,
-    ])
-  ) as T
+  return sanitizeBriefing(input) as T
 }
 
 // Uso obrigatório em TODOS os route handlers antes de qualquer processamento:
 // const clean = sanitizeInput(rawBody)
-// Aplicar também na rota /api/clone antes de enviar para o Vision
-```
 
 ---
 
